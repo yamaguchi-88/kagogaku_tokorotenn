@@ -23,7 +23,7 @@ function moveEnemy() {
 // 弾発射
 function shootBullet() {
   const bullet = document.createElement("img");
-  bullet.src = "image/しばる.png";
+  bullet.src = "../image/しばる.png";
   bullet.className = "bullet";
   gameArea.appendChild(bullet);
   bullets.push({ element: bullet, x: enemy.offsetLeft, y: enemyY, speed: -5 });
@@ -33,7 +33,6 @@ function shootBullet() {
 function updateBullets() {
   bullets.forEach((b, index) => {
     b.x += b.speed;
-    // 背景スクロールに合わせて弾も移動
     b.element.style.left = (b.x + bgX) + "px";
     b.element.style.top = b.y + "px";
 
@@ -59,7 +58,7 @@ function updateBullets() {
   });
 }
 
-// プレイヤーが弾に当たったときの処理
+// プレイヤーが弾に当たったとき
 function handleHit() {
   isHit = true;
   result.style.left = player.offsetLeft + "px";
@@ -71,7 +70,6 @@ function handleHit() {
   result.style.display = "block";
   player.style.display = "none";
 
-  // 1秒後に元に戻す
   setTimeout(() => {
     result.style.display = "none";
     result.classList.remove("shake");
@@ -80,12 +78,9 @@ function handleHit() {
   }, 1000);
 }
 
-// キーボード入力
+// キーボード操作
 document.addEventListener("keydown", (e) => {
-  // 弾発射は常に可能
   if (e.key === "Shift") shootBullet();
-
-  // プレイヤー操作禁止中は移動・背景スクロールを無効
   if (isHit) return;
 
   if (e.key === "ArrowUp") playerY -= 10;
@@ -93,7 +88,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") bgX += 10;
   if (e.key === "ArrowRight") bgX -= 10;
 
-  // 上下移動制限
   playerY = Math.max(0, Math.min(window.innerHeight - player.offsetHeight, playerY));
 
   player.style.top = playerY + "px";
@@ -105,3 +99,39 @@ setInterval(() => {
   moveEnemy();
   updateBullets();
 }, 20);
+
+
+// タイマー
+let timeLeft = 10;
+const timerElement = document.createElement("div");
+timerElement.style.position = "absolute";
+timerElement.style.top = "20px";
+timerElement.style.left = "20px";
+timerElement.style.color = "white";
+timerElement.style.fontSize = "32px";
+timerElement.style.fontFamily = "monospace";
+timerElement.style.zIndex = "9999";
+timerElement.textContent = `残り時間: ${timeLeft}`;
+gameArea.appendChild(timerElement);
+
+// ゴール画像
+const goal = document.createElement("img");
+goal.src = "../image/ゴール.png"; // ← 画像名を合わせてください
+goal.className = "sprite";
+goal.style.display = "none";
+goal.style.left = "50%";
+goal.style.top = "50%";
+goal.style.transform = "translate(-50%, -50%)";
+goal.style.zIndex = "9999";
+gameArea.appendChild(goal);
+
+// タイマー処理
+const timerInterval = setInterval(() => {
+  if (isHit) return; // 被弾中はストップ
+  timeLeft--;
+  timerElement.textContent = `残り時間: ${timeLeft}`;
+  if (timeLeft <= 0) {
+    clearInterval(timerInterval);
+    goal.style.display = "block";
+  }
+}, 1000);
