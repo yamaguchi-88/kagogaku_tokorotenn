@@ -1,39 +1,9 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>当たり判定で置き換え</title>
-  <style>
-    body { margin: 0; overflow: hidden; }
-    #gameArea {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: #eee;
-    }
-    .sprite {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-    }
-    #player {
-      left: 50px;
-      top: 50px;
-    }
-    #enemy {
-      left: 300px;
-      top: 200px;
-    }
-    #result {
-      display: none;
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      left: 200px;
-      top: 150px;
-    }
-  </style>
+  <title>Webゲーム - 震える画像C</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="gameArea">
@@ -41,115 +11,6 @@
     <img id="enemy" class="sprite" src="image/しばる.png" alt="B">
     <img id="result" class="sprite" src="image/自由をしばる.png" alt="C">
   </div>
-
-  <script>
-    const player = document.getElementById("player");
-    const enemy = document.getElementById("enemy");
-    const result = document.getElementById("result");
-
-    let x = 50, y = 50;
-
-    // 矢印キーで画像Aを動かす
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowUp") y -= 10;
-      if (e.key === "ArrowDown") y += 10;
-      if (e.key === "ArrowLeft") x -= 10;
-      if (e.key === "ArrowRight") x += 10;
-
-      player.style.left = x + "px";
-      player.style.top = y + "px";
-
-      checkCollision();
-    });
-
-    // 当たり判定
-    function checkCollision() {
-      const rectA = player.getBoundingClientRect();
-      const rectB = enemy.getBoundingClientRect();
-
-      if (
-        rectA.left < rectB.right &&
-        rectA.right > rectB.left &&
-        rectA.top < rectB.bottom &&
-        rectA.bottom > rectB.top
-      ) {
-        // AとBを消す
-        player.style.display = "none";
-        enemy.style.display = "none";
-
-        // Cを表示
-        result.style.display = "block";
-      }
-    }
-  </script>
+  <script src="game.js"></script>
 </body>
 </html>
-=======
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8" />
-<title>マイクで動く2Dアクション</title>
-<style>
-  canvas { background: #222; display: block; margin: 0 auto; }
-</style>
-</head>
-<body>
-<canvas id="game" width="800" height="400"></canvas>
-<script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-
-let player = { x: 100, y: 300, vy: 0, onGround: true };
-let micLevel = 0;
-
-// 🎤 マイク入力の取得
-async function setupMic() {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  const audioCtx = new AudioContext();
-  const analyser = audioCtx.createAnalyser();
-  const source = audioCtx.createMediaStreamSource(stream);
-  source.connect(analyser);
-
-  const data = new Uint8Array(analyser.fftSize);
-  function getMicLevel() {
-    analyser.getByteTimeDomainData(data);
-    const rms = Math.sqrt(data.reduce((s, v) => s + (v - 128) ** 2, 0) / data.length);
-    micLevel = rms;
-    requestAnimationFrame(getMicLevel);
-  }
-  getMicLevel();
-}
-
-setupMic();
-
-// 🕹️ ゲームループ
-function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 380, 800, 20); // 地面
-  ctx.fillStyle = "cyan";
-  ctx.fillRect(player.x, player.y - 20, 20, 20);
-
-  // 🎤 音量が一定以上ならジャンプ
-  if (micLevel > 10 && player.onGround) {
-    player.vy = -10;
-    player.onGround = false;
-  }
-
-  // 重力処理
-  player.vy += 0.5;
-  player.y += player.vy;
-  if (player.y >= 300) {
-    player.y = 300;
-    player.vy = 0;
-    player.onGround = true;
-  }
-
-  requestAnimationFrame(loop);
-}
-loop();
-</script>
-</body>
-</html>
->>>>>>> 4c61030f107bca3f41a2710c4c266a9f14ce72b5
