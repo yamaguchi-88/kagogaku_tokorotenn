@@ -114,6 +114,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // マウスの動きに合わせてプレイヤーを移動
 document.addEventListener("mousemove", (e) => {
   if (isHit) return; // 被弾中は操作不可
@@ -128,6 +129,8 @@ document.addEventListener("mousemove", (e) => {
 });
 
 =======
+=======
+>>>>>>> Stashed changes
 //プレイヤーをカーソル移動
 // マウスの動きに合わせてプレイヤーを移動
 let cursorX = window.innerWidth / 2;
@@ -198,6 +201,9 @@ startCountdown();
 
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 // メインループ
