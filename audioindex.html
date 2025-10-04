@@ -79,17 +79,18 @@
         const transcript = event.results[0][0].transcript;
         console.log("認識結果:", transcript);
         //ここの日本語をいじれば音声認識の内容を変えられる
-        if (transcript.includes("さかな")) {
+        //ifの後にelse追加で音声内容追加できるっぽい
+        if (transcript.includes("だから")) {
           const volume = getVolume();
           console.log("音量:", volume);
 
           let size = 30;
           let color = 'blue';
 
-          if (volume > 100) {
+          if (volume > 10) {
             size = 80;
             color = 'red';
-          } else if (volume > 50) {
+          } else if (volume > 5) {
             size = 50;
             color = 'green';
           }
@@ -102,7 +103,16 @@
         console.error("音声認識エラー:", event.error);
       };
     }
+    //画像の読み込み
+    const images = {
+        //画像内容
+        name: new Image()
+    };
 
+    //画像のパスを設定
+    images.name.src = 'image/自由.png';
+
+    //オブジェクト生成内容
     function spawnObject(size, color) {
       const obj = {
         x: Math.random() * (canvas.width - size),
@@ -114,7 +124,7 @@
       objects.push(obj);
       draw();
     }
-
+    //描画処理
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const obj of objects) {
