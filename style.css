@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#gameArea {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url("image/背景.png") repeat;
+  background-size: auto;
+  overflow: hidden;
+}
+
+.sprite {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+
+#player {
+  left: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#enemy {
+  right: 100px;
+  top: 100px;
+}
+
+#result {
+  display: none;
+  position: absolute;
+}
+
+.bullet {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+}
+
+/* 震えるアニメーション */
+@keyframes shake {
+  0% { transform: translateY(-50%) translateX(0px); }
+  25% { transform: translateY(-50%) translateX(-5px); }
+  50% { transform: translateY(-50%) translateX(5px); }
+  75% { transform: translateY(-50%) translateX(-5px); }
+  100% { transform: translateY(-50%) translateX(0px); }
+}
+
+.shake {
+  animation: shake 0.1s infinite;
+}

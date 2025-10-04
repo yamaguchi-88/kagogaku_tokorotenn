@@ -2,84 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>当たり判定で置き換え</title>
-  <style>
-    body { margin: 0; overflow: hidden; }
-    #gameArea {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: #eee;
-    }
-    .sprite {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-    }
-    #player {
-      left: 50px;
-      top: 50px;
-    }
-    #enemy {
-      left: 300px;
-      top: 200px;
-    }
-    #result {
-      display: none;
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      left: 200px;
-      top: 150px;
-    }
-  </style>
+  <title>Webゲーム - 震える画像C</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
   <div id="gameArea">
-    <img id="player" class="sprite" src="image/自由.png" alt="A">
-    <img id="enemy" class="sprite" src="image/しばる.png" alt="B">
-    <img id="result" class="sprite" src="image/自由をしばる.png" alt="C">
+    <img id="player" class="sprite" src="../image/自由.png" alt="A">
+    <img id="enemy" class="sprite" src="../image/しばる.png" alt="B">
+    <img id="result" class="sprite" src="../image/自由をしばる.png" alt="C">
   </div>
-
-  <script>
-    const player = document.getElementById("player");
-    const enemy = document.getElementById("enemy");
-    const result = document.getElementById("result");
-
-    let x = 50, y = 50;
-
-    // 矢印キーで画像Aを動かす
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowUp") y -= 10;
-      if (e.key === "ArrowDown") y += 10;
-      if (e.key === "ArrowLeft") x -= 10;
-      if (e.key === "ArrowRight") x += 10;
-
-      player.style.left = x + "px";
-      player.style.top = y + "px";
-
-      checkCollision();
-    });
-
-    // 当たり判定
-    function checkCollision() {
-      const rectA = player.getBoundingClientRect();
-      const rectB = enemy.getBoundingClientRect();
-
-      if (
-        rectA.left < rectB.right &&
-        rectA.right > rectB.left &&
-        rectA.top < rectB.bottom &&
-        rectA.bottom > rectB.top
-      ) {
-        // AとBを消す
-        player.style.display = "none";
-        enemy.style.display = "none";
-
-        // Cを表示
-        result.style.display = "block";
-      }
-    }
-  </script>
+  <script src="../game.js"></script>
 </body>
 </html>
